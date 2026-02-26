@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor.Rendering;
 using UnityEngine;
 
@@ -9,9 +10,16 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private float speed = 5f;
     private float jumpStrenght = 8f;
+    private Animator animator;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+    }
+
+    private void PlayWalk()
+    {
+        animator.SetTrigger("Go walk");
     }
 
     void Update()
@@ -20,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
         var x = horizontalInput * speed * Time.deltaTime;
         var xyz = new Vector3(x, 0f, 0f);
         transform.Translate(xyz);
+
+        if (horizontalInput != 0) PlayWalk();
 
         if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.001f)
         {
