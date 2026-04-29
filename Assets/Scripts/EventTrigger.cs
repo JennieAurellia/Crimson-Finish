@@ -9,7 +9,10 @@ public enum TypeTag
     Trap,
     Checkpoint,
     Finish,
-    Trigger
+    Trigger,
+    Enemy,
+    Coin,
+    Flag
 }
 
 public class EventTrigger : MonoBehaviour
@@ -21,8 +24,9 @@ public class EventTrigger : MonoBehaviour
     {
         if (collision.tag == targetTag.ToString())
         {
-            Debug.Log(collision.gameObject.name + "collide with" + gameObject.name);
-            // onTrigger.Invoke(collision.gameObject);
+
+            Debug.Log(collision.gameObject.name + "collide with " + gameObject.name);
+            onTrigger.Invoke(collision.gameObject);
         }
     }
 }

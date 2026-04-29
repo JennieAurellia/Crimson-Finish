@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerPositionHandler : MonoBehaviour
 {
     public TransformData playerPositonData;
-
     public void LoadPosition()
     {
         transform.position = playerPositonData.position;        
@@ -29,6 +28,13 @@ public class PlayerPositionHandler : MonoBehaviour
     public void OnEnemy()
     {
         ChangePlayerPos(currentCheckpointPos);
+    }
+
+    public void OnFinish()
+    {
+        int levelCurrent = GameManager.Instance.levelCurrent;
+        GameManager.Instance.ChangeLevel(1);
+        GameManager.Instance.ChangeScene(0);
     }
     #endregion
 
