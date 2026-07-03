@@ -4,6 +4,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEngine.Audio;
 using Debug = UnityEngine.Debug;
 
 public class GameManager : MonoBehaviour
@@ -98,4 +99,68 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region User Setting Manager
+    UserSetting userSetting;
+    public float masterVolumeCurrent;
+    public float musicVolumeCurrent;
+    public float sfxVolumeCurrent;
+
+    public void CheckUserSettingSaveFile()
+    {
+        if (File.Exists(Application.dataPath + "/UserSetting.json")) LoadUserSetting();
+        else 
+        {
+            ResetUserSetting();
+            SaveUserSetting();
+        }
+    }
+    //berguna untuk save level ke json
+    private void SaveUserSetting()
+    {
+        userSetting = new UserSetting();
+        userSetting.masterVolume = masterVolumeCurrent;
+        userSetting.musicVolume = musicVolumeCurrent;
+        userSetting.sfxVolume = sfxVolumeCurrent;
+        string json = JsonUtility.ToJson(userSetting, true);
+        File.WriteAllText(Application.dataPath + "/UserSetting.json", json);
+    }
+
+    public void ChangeUserSetting(int masterVolume, int musicVolume, int SFXVolume)
+    {
+        masterVolumeCurrent = masterVolume;
+
+        SaveUserSetting();
+    }
+
+    private void LoadUserSetting()
+    {
+        string json;
+        json = File.ReadAllText(Application.dataPath + "/UserSetting.json");
+        UserSetting userSetting = JsonUtility.FromJson<UserSetting>(json);
+        masterVolumeCurrent = userSetting.masterVolume;
+        musicVolumeCurrent = userSetting.musicVolume;
+        sfxVolumeCurrent = userSetting.sfxVolume;
+    }
+    private void CheckUserSetting()
+    {
+        LoadUserSetting();
+        masterVolumeCurrent = userSetting.masterVolume;
+        musicVolumeCurrent = userSetting.musicVolume;
+        sfxVolumeCurrent = userSetting.sfxVolume;
+    }
+    public void ChangeUserSetting(float masterVolume, float musicVolume, float sfxVolume)
+    {
+        masterVolumeCurrent = masterVolume;
+        musicVolumeCurrent = musicVolume;
+        sfxVolumeCurrent = sfxVolume;
+        SaveUserSetting();
+    }
+    public void ResetUserSetting()
+    {
+        masterVolumeCurrent = 0.5f;
+        musicVolumeCurrent = 0.5f;
+        sfxVolumeCurrent = 0.5f;
+    }
+
+    #endregion
 }

@@ -16,9 +16,6 @@ public class UIGameplay : MonoBehaviour
 
     void Start()
     {
-        menuBtn.onClick.AddListener(() => GameManager.Instance.ChangeScene(sceneIndex));
-        resumeBtn.onClick.AddListener(PauseMenuHandle);
-
         PauseMenuSetActiveChild(false);
         gameObject.SetActive(true);
     }
@@ -31,7 +28,14 @@ public class UIGameplay : MonoBehaviour
         }
     }
 
-    private void PauseMenuHandle()
+    public void MenuButtonHandle()
+    {
+
+        Debug.Log("Menu Clicked");
+        GameManager.Instance.ChangeScene(sceneIndex);
+    }
+
+    public void PauseMenuHandle()
     {
         if (GameManager.Instance.isPaused)
         {

@@ -24,8 +24,6 @@ public class EventTrigger : MonoBehaviour
     {
         if (collision.tag == targetTag.ToString())
         {
-
-            Debug.Log(collision.gameObject.name + "collide with " + gameObject.name);
             onTrigger.Invoke(collision.gameObject);
         }
     }
